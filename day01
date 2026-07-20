@@ -1,1 +1,128 @@
-hbcdusccncicacki 
+//behaviraol modling
+module all_logic_gates(
+  input a,b,
+  output not_gate,
+  output and_gate,
+  output or_gate,
+  output nand_gate,
+  output nor_gate,
+  output xor_gate,
+  output xnor_gate
+);
+  assign not_gate=~a;
+  assign and_gate=a&b;
+  assign or_gate=a|b;
+  assign nand_gate=~(a&b);
+  assign nor_gate=~(a|b);
+  assign xor_gate=a^b;
+  assign xnor_gate=~(a^b);
+endmodule
+//tb  
+module all_gates_tb;
+
+reg a, b;
+
+wire not_gate;
+wire and_gate;
+wire or_gate;
+wire nand_gate;
+wire nor_gate;
+wire xor_gate;
+wire xnor_gate;
+
+all_logic_gates dut(
+    a,
+    b,
+    not_gate,
+    and_gate,
+    or_gate,
+    nand_gate,
+    nor_gate,
+    xor_gate,
+    xnor_gate
+);
+
+initial begin
+
+    $dumpfile("all_logic_gates.vcd");
+    $dumpvars(0, all_gates_tb);
+
+    a = 0;b = 0;#10;
+
+    a = 0;b = 1;#10;
+    a = 1;b = 0;#10;
+
+    a = 1;b = 1;#10;
+    $finish;
+
+end
+
+//strutrual modling
+module all_logic_gates(
+  input a,b,
+  output not_gate,
+  output and_gate,
+  output or_gate,
+  output nand_gate,
+  output nor_gate,
+  output xor_gate,
+  output xnor_gate
+);
+  not (not_gate,a);
+  and (and_gate,a,b);
+  or (or_gate,a,b);
+  nand (nand_gate,a,b);
+  nor (nor_gate,a,b);
+  xor (xor_gate,a,b);
+  xnor(xnor_gate,a,b);
+endmodule
+
+//tb
+module all_gates_tb;
+
+reg a, b;
+
+wire not_gate;
+wire and_gate;
+wire or_gate;
+wire nand_gate;
+wire nor_gate;
+wire xor_gate;
+wire xnor_gate;
+
+all_logic_gates dut(
+    a,
+    b,
+    not_gate,
+    and_gate,
+    or_gate,
+    nand_gate,
+    nor_gate,
+    xor_gate,
+    xnor_gate
+);
+
+initial begin
+
+    $dumpfile("all_logic_gates.vcd");
+    $dumpvars(0, all_gates_tb);
+
+    a = 0;
+    b = 0;
+    #10;
+
+    a = 0;
+    b = 1;
+    #10;
+
+    a = 1;
+    b = 0;
+    #10;
+
+    a = 1;
+    b = 1;
+    #10;
+
+    $finish;
+
+end
