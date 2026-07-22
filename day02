@@ -23,3 +23,29 @@ module even_parity_gen_tb;
   end
 endmodule
 
+// even parity checker code 
+module even_parity_checker(
+  input [7:0]data_in,
+  input parity,
+  output error);
+  assign error=^{data_in,parity};
+endmodule
+
+// even parity checker test_bench code 
+module even_parity_checker_tb;
+  reg [7:0]data_in;
+  reg parity;
+  wire error;
+  even_parity_checker dut (data_in,parity,error);
+  initial begin
+    $monitor("%b  %b  %b",data_in,parity,error);
+    $dumpfile("even_parity_gen");
+    $dumpvars(0,even_parity_checker_tb);
+    data_in=8'b00000000;parity=0;#10;
+    data_in=8'b00001111;parity=0;#10;
+    data_in=8'b01010111;parity=0;#10;
+    data_in=8'b10101010;parity=0;#10;
+    $finish;
+  end
+endmodule
+
