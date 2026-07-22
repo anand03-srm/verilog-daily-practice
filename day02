@@ -1,0 +1,25 @@
+// even parity generator code 
+module even_parity_gen(
+  input [7:0]data_in,
+  output parity);
+  assign parity=^data_in;
+endmodule
+
+
+// even parity genrator test_bench code 
+module even_parity_gen_tb;
+  reg [7:0]data_in;
+  wire parity;
+  even_parity_gen dut (data_in,parity);
+  initial begin
+    $monitor("%b  %b ",data_in,parity);
+    $dumpfile("even_parity_gen");
+    $dumpvars(0,even_parity_gen_tb);
+    data_in=8'b00000000;#10;
+    data_in=8'b00001111;#10;
+    data_in=8'b01010111;#10;
+    data_in=8'b10101010;#10;
+    $finish;
+  end
+endmodule
+
