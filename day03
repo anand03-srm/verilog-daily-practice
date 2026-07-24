@@ -1,0 +1,88 @@
+`timescale 1ns / 1ps
+
+module half_adder(
+    input a, b,
+    output sout, cout
+    );
+    
+    assign sout = a^b;
+    assign cout = a&b;
+    
+endmodule
+
+`timescale 1ns / 1ps
+
+module test_bench_ha;
+reg a, b;
+  wire sout, cout;
+  reg clk;
+
+  half_adder dut(a, b, sout, cout);
+
+  always #5 clk = ~clk;
+
+  initial begin
+    clk = 0;
+    a = 0; b = 0;
+    #10;
+    a = 0; b = 1;
+    #10;
+    a = 1; b = 0;
+    #10;
+    a = 1; b = 1;
+    #10;
+    $finish;
+  end
+  
+  always @(posedge clk) begin
+    $display("a = %b, b = %b, sum = %b, carry = %b", a, b, sout, cout);
+  end
+endmodule
+
+`timescale 1ns / 1ps
+
+module full_adder(
+    input a, b, cin,
+    output sout, cout
+    );
+    
+    assign sout = a ^ b ^ cin;
+    assign cout = (a&b) | cin&(a^b);
+endmodule
+
+`timescale 1ns / 1ps
+
+module test_bench;
+  reg a, b, cin;
+  wire sout, cout;
+  reg clk;
+
+  full_adder dut(a, b, cin, sout, cout);
+
+  always #5 clk = ~clk;
+
+  initial begin
+    clk = 0;
+    a = 0; b = 0; cin = 0;
+    #10;
+    a = 0; b = 0; cin = 1;
+    #10;
+    a = 0; b = 1; cin = 0;
+    #10;
+    a = 0; b = 1; cin = 1;
+    #10;
+    a = 1; b = 0; cin = 0;
+    #10;
+    a = 1; b = 0; cin = 1;
+    #10;
+    a = 1; b = 1; cin = 0;
+    #10;
+    a = 1; b = 1; cin = 1;
+    #10;
+    $finish;
+  end
+  
+  always @(posedge clk) begin
+    $display("a = %b, b = %b, cin = %b, sum = %b, carry = %b", a, b, cin, sout, cout);
+  end
+endmodule
