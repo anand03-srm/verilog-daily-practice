@@ -1,0 +1,88 @@
+`timescale 1ns / 1ps
+
+module half_subtractor(
+  input a, b,
+  output diff, bout
+);
+
+  assign diff = a ^ b;
+  assign bout = ~a & b;
+  
+endmodule
+
+`timescale 1ns / 1ps
+
+module test_bench_hs;
+  reg a, b;
+  wire diff, bout;
+  reg clk;
+
+  half_subtractor dut(a, b, diff, bout);
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    clk = 0;
+    a = 0; b = 0;
+    #10;
+    a = 0; b = 1;
+    #10;
+    a = 1; b = 0;
+    #10;
+    a = 1; b = 1;
+    #10
+    $finish;
+  end
+
+  always @(posedge clk) begin
+    $display("a: %b, b: %b, difference: %b, borrow: %b", a, b, diff, bout);
+  end
+endmodule
+
+`timescale 1ns / 1ps
+
+module full_subtractor(
+  input a, b, bin,
+  output diff, bout
+);
+
+  assign diff = a ^ b ^ bin;
+  assign bout = (~a & (b^bin)) | (b & bin) ;
+endmodule
+
+`timescale 1ns / 1ps
+
+module test_bench_fs;
+  reg a, b, bin;
+  wire diff, bout;
+  reg clk;
+
+  full_subtractor dut(a, b, bin, diff, bout);
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    clk = 0;
+    a = 0; b = 0; bin = 0;
+    #10;
+    a = 0; b = 0; bin = 1;
+    #10;
+    a = 0; b = 1; bin = 0;
+    #10;
+    a = 0; b = 1; bin = 1;
+    #10;
+    a = 1; b = 0; bin = 0;
+    #10;
+    a = 1; b = 0; bin = 1;
+    #10;
+    a = 1; b = 1; bin = 0;
+    #10;
+    a = 1; b = 1; bin = 1;
+    #10;
+    $finish;
+  end
+
+  always @(posedge clk) begin
+    $display("a: %b, b: %b, bin: %b, difference: %b, borrow: %b", a, b, bin, diff, bout);
+  end
+endmodules  
