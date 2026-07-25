@@ -16,4 +16,26 @@ module parallel_adder(
   full_adder fa3(a[2],b[2],c[1],sum[2],c[2]);
   full_adder fa4(a[3],b[3],c[2],sum[3],carry);
 endmodule
+
+
+// 4bit parllel adder testbench code 
+module parllel_adder;
+  reg [3:0]a,b,c;
+  wire [3:0]sum;
+  wire carry;
+  full_adder dut(a,b,c,sum,carry);
+  always begin
+    a=$random;
+    b=$random;
+    c=$random;
+    #10;
+  end
+  initial begin
+    $dumpfile("wave,vcd");
+    $dumpvars(0,parllel_adder);
+    $monitor("%b %b %b %b %b",a,b,c,sum,carry);
+    #60;
+    $finish;
+  end
+endmodule
   
