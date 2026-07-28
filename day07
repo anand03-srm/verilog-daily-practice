@@ -27,3 +27,32 @@ module one_campartor_tb;
     $finish;
   end
 endmodule
+
+//4 bit camparator design code
+
+module four_bit_camparator(
+  input [3:0]a,b,
+  output greater,less,equal);
+  assign greater=(a>b);
+  assign less=(a<b);
+  assign equal=(a==b);
+endmodule
+
+//4 bit camprator testbench code 
+
+module four_bit_camparator_tb;
+  reg [3:0]a,b;
+  wire greater,less,equal;
+  four_bit_camparator dut (a,b,greater,less,equal);
+  initial begin
+    $strobe("a=%d b=%d greater=%b less=%b equal=%b",a,b,greater,less,equal);
+    $dumpfile("wave.vcd");
+    $dumpvars(0,four_bit_camparator_tb);
+    a=4'd8;b=4'd7;#10;
+    a=4'd8;b=4'd7;#10;
+    a=4'd7;b=4'd7;#10;
+    a=4'd8;b=4'd0;#10;
+    $finish;
+  end
+endmodule
+      
