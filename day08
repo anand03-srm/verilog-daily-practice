@@ -1,0 +1,35 @@
+//4:1 mux design code
+
+module four_one_mux(
+  input i0,i1,i2,i3,
+  input [1:0]sel,
+  output reg  y);
+  always@(*)begin
+    case(sel)
+      2'b00:y=i0;
+      2'b01:y=i1;
+      2'b10:y=i2;
+      2'b11:y=i3;
+    endcase
+  end
+endmodule
+
+//4:1 testbench code
+module four_one_mux_tb;
+  reg i0,i1,i2,i3;
+  reg  [1:0]sel;
+  wire y;
+  four_one_mux dut(i0,i1,i2,i3,sel,y);
+  initial begin
+      $monitor("i0=%b i1=%b i2=%b i3=%b sel=%b y=%b",i0,i1,i2,i3,sel,y);
+      $dumpfile("wave.vcd");
+      $dumpvars(0,four_one_mux_tb);
+      i0=0;i1=1;i2=0;i3=1;
+      sel=0;#10;
+      sel=1;#10;
+      sel=2;#10;
+      sel=3;#10;
+      $finish;
+    end
+endmodule
+      
