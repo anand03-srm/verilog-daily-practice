@@ -41,3 +41,40 @@ module test_bench;
     #100 $finish;
     end
 endmodule
+
+`timescale 1ns / 1ps
+
+module divide(
+    input [3:0]dividend,divisor,
+    output reg [3:0]quotient,remainder);
+
+    always@(dividend,divisor)
+        begin
+        quotient = 0;
+        remainder= dividend;
+            while(remainder>=divisor)
+            begin	
+                remainder = remainder - divisor;
+                quotient = quotient + 1;
+            end
+        end
+endmodule
+
+`timescale 1ns / 1ps
+
+module test_bench;
+    reg [3:0]dividend,divisor;
+    wire [3:0]quotient,remainder;
+
+    divide dut(dividend,divisor,quotient,remainder);
+		always begin
+			
+			dividend =$random;
+			divisor =$random;
+            #10;
+		end
+    initial
+    begin $monitor("%0d / %0d = %0d with remainder %0d ",dividend,divisor,quotient,remainder);
+    #100 $finish;
+    end
+endmodule
