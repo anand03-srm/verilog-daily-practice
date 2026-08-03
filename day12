@@ -42,6 +42,44 @@ module sr_latch_tb;
     $finish;
   end
 endmodule
+
+
+//d latch design code
+
+module d_latch(
+  input D,
+  input EN,
+  input RST,
+  output reg q);
+  always@(*)begin
+    if(RST)begin
+      q=0;
+    end
+    else if(EN)begin
+      q=D;
+    end
+  end
+endmodule
+
+//d latch testbench code
+module d_latch_tb;
+  reg D;
+  reg EN;
+  reg RST;
+  wire q;
+  d_latch dut(D,EN,RST,q);
+  initial begin 
+    $monitor("d=%b ena=%b reset=%b q=%b",D,EN,RST,q);
+    $dumpfile("waveform.vcd");
+    $dumpvars(0,d_latch_tb);
+    RST=1; EN=0; D=0; #10;
+    RST=0; EN=1; D=1; #10;
+    RST=0; EN=0; D=0; #10;
+    RST=0; EN=1; D=0; #10;
+    RST=1; EN=1; D=1; #10;
+    $finish;
+  end
+endmodule
     
     
               
