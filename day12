@@ -1,4 +1,4 @@
-//sr latch design code
+//sr latch design code.
 module sr_latch(
   input s,
   input r,
