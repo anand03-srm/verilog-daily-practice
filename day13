@@ -1,0 +1,56 @@
+module d_to_t_ff(
+    input clk,
+    input rst,
+    input T,
+    output reg Q
+);
+
+wire D;
+
+assign D = T ^ Q;
+
+always @(posedge clk or posedge rst)
+begin
+    if(rst)
+        Q <= 0;
+    else
+        Q <= D;
+end
+
+endmodule
+
+module d_to_t_ff_tb;
+
+reg clk;
+reg rst;
+reg T;
+
+wire Q;
+
+d_to_t_ff dut(
+    .clk(clk),
+    .rst(rst),
+    .T(T),
+    .Q(Q)
+);
+
+always #5 clk = ~clk;
+
+initial
+begin
+    clk = 0;
+    rst = 1;
+    T = 0;
+
+    #10 rst = 0;
+
+    T = 0; #10;
+    T = 1; #10;
+    T = 1; #10;
+    T = 0; #10;
+    T = 1; #10;
+
+    $finish;
+end
+
+endmodule
